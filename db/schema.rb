@@ -50,8 +50,17 @@ ActiveRecord::Schema.define(:version => 20110717220728) do
 
   add_index "comments_response_categories", ["response_category_id"], :name => "index_comments_response_categories_on_response_category_id"
 
-# Could not dump table "entities" because of following StandardError
-#   Unknown type 'stirng' for column 'icon_name'
+  create_table "entities", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "icon_uri"
+    t.string   "location"
+    t.float    "lat"
+    t.float    "lng"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "icon_name"
+  end
 
   create_table "icons", :force => true do |t|
     t.string   "name"

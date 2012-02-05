@@ -17,3 +17,6 @@ gem 'ruby-debug-ide' #'0.4.9'
 gem 'rcov'
 gem 'rdoc'
 gem 'rspec-rails'
+
+gem 'heroku'
+
