@@ -11,7 +11,6 @@ GEM
     activeresource (2.3.8)
       activesupport (= 2.3.8)
     activesupport (2.3.8)
-    addressable (2.2.6)
     authlogic (2.1.6)
       activesupport
     cgi_multipart_eof_fix (2.5.0)
@@ -19,15 +18,7 @@ GEM
     diff-lcs (1.1.2)
     fastthread (1.0.7)
     gem_plugin (0.2.3)
-    heroku (2.19.2)
-      launchy (>= 0.3.2)
-      rest-client (~> 1.6.1)
-      rubyzip
-      term-ansicolor (~> 1.0.5)
-    launchy (2.0.5)
-      addressable (~> 2.2.6)
     linecache (0.43)
-    mime-types (1.17.2)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -47,8 +38,6 @@ GEM
     rake (0.8.7)
     rcov (0.9.9)
     rdoc (2.5.11)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
     rspec (2.1.0)
       rspec-core (~> 2.1.0)
       rspec-expectations (~> 2.1.0)
@@ -63,9 +52,7 @@ GEM
       linecache (>= 0.3)
     ruby-debug-ide (0.4.11)
       rake (>= 0.8.1)
-    rubyzip (0.9.5)
     sqlite3-ruby (1.3.2)
-    term-ansicolor (1.0.7)
 
 PLATFORMS
   ruby
@@ -73,7 +60,6 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   bundler
-  heroku
   mongrel
   paperclip
   rails (= 2.3.8)

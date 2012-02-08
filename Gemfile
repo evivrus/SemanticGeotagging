@@ -18,5 +18,4 @@ gem 'rcov'
 gem 'rdoc'
 gem 'rspec-rails'
 
-gem 'heroku'
 
