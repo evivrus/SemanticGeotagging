@@ -4,11 +4,11 @@ gem 'rails', '2.3.8'
 gem 'authlogic'
 gem 'paperclip'
 
-gem 'rake'
 gem 'sqlite3-ruby'
 gem 'mongrel'
 
 group :developement, :test do
+	gem 'rake'
 	gem 'bundler'
 	gem 'rspec'
 	gem 'rspec-rails'
