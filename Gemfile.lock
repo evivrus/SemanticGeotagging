@@ -19,6 +19,7 @@ GEM
     fastthread (1.0.7)
     gem_plugin (0.2.3)
     linecache (0.43)
+    mime-types (1.17.2)
     mongrel (1.1.5)
       cgi_multipart_eof_fix (>= 2.4)
       daemons (>= 1.0.3)
@@ -38,6 +39,8 @@ GEM
     rake (0.8.7)
     rcov (0.9.9)
     rdoc (2.5.11)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.1.0)
       rspec-core (~> 2.1.0)
       rspec-expectations (~> 2.1.0)
@@ -52,7 +55,16 @@ GEM
       linecache (>= 0.3)
     ruby-debug-ide (0.4.11)
       rake (>= 0.8.1)
+    sequel (3.20.0)
+    sinatra (1.0)
+      rack (>= 1.0)
     sqlite3-ruby (1.3.2)
+    taps (0.3.23)
+      rack (>= 1.0.1)
+      rest-client (>= 1.4.0, < 1.7.0)
+      sequel (~> 3.20.0)
+      sinatra (~> 1.0.0)
+      sqlite3-ruby (~> 1.2)
 
 PLATFORMS
   ruby
@@ -71,3 +83,4 @@ DEPENDENCIES
   ruby-debug-base
   ruby-debug-ide
   sqlite3-ruby
+  taps

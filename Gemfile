@@ -6,6 +6,7 @@ gem 'paperclip'
 
 gem 'sqlite3-ruby'
 gem 'mongrel'
+gem 'taps'
 
 group :developement, :test do
 	gem 'rake'
