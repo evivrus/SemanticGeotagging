@@ -3,6 +3,7 @@ class Comment < ActiveRecord::Base
   belongs_to :entity
   belongs_to :comment
   belongs_to :user
+  has_attached_file :image, :style => {:medium => "300x300>", :thumb => "100x100>"}
 
   after_create  :increment_counter_cache
   after_destroy :decrement_counter_cache

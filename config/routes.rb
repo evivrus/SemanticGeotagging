@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+
+
   #map.connect "/mapview", :controller=>"mapview"
   # Routes for api controller
   # this set of routes are used for the resources providing to the
@@ -92,6 +94,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :entities do |entities|
     entities.resources :comments
   end
+
+  map.connect 'comments/new', :controller => 'comments', :action => 'new'
 
   # The priority is based upon order of creation: first created -> highest priority.
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110717220728) do
+ActiveRecord::Schema.define(:version => 20120216075155) do
 
   create_table "comment_categories", :force => true do |t|
     t.string   "name"
@@ -36,8 +36,12 @@ ActiveRecord::Schema.define(:version => 20110717220728) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "comments_counter", :default => 0
-    t.boolean  "important_tag",    :default => false
+    t.integer  "comments_counter",   :default => 0
+    t.boolean  "important_tag",      :default => false
+    t.datetime "image_updated_at"
+    t.string   "image_content_type"
+    t.string   "image_file_name"
+    t.integer  "image_file_size"
   end
 
   create_table "comments_response_categories", :force => true do |t|

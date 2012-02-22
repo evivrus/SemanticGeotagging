@@ -15,6 +15,44 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="paperclip (v2.6.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v2.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mongrel (v1.1.5, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionpack (v2.3.8, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rcov (v0.9.9, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="fastthread (v1.0.7, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rails (v2.3.8, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="gem_plugin (v0.2.3, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sinatra (v1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activesupport (v2.3.8, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cgi_multipart_eof_fix (v2.5.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sequel (v3.20.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby-debug-base (v0.10.4, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sqlite3-ruby (v1.3.2, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="mime-types (v1.17.2, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.0.21, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activeresource (v2.3.8, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="taps (v0.3.23, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rest-client (v1.6.7, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec (v2.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v2.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v2.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="daemons (v1.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="actionmailer (v2.3.8, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rake (v0.8.7, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="linecache (v0.43, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="authlogic (v2.1.6, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v2.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="ruby-debug-ide (v0.4.11, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="activerecord (v2.3.8, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="cocaine (v0.2.1, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rdoc (v2.5.11, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack (v1.1.0, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.1.2, RVM: ruby-1.8.7-p302) [gem]" level="application" />
+  </component>
+  <component name="RModuleSettingsStorage">
+    <LOAD_PATH number="0" />
+    <I18N_FOLDERS number="1" string0="$MODULE_DIR$/config/locales" />
   </component>
 </module>
 

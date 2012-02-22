@@ -76,6 +76,8 @@ class CommentsController < ApplicationController
     
     @comment.category_id = session[:category_id]
 
+
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @comment }
