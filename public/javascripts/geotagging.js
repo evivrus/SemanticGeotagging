@@ -9,7 +9,7 @@ function geotaggingInitialize() {
 	  content: 'holding...'
 	});
 
-  	$.getJSON('/api/entities.js?callback=?', function(data) {
+  	$.getJSON('http://geotagging.heroku.com/api/entities.js?callback=?', function(data) {
 	    for(var i=0; i<data.length; i++) {
 
 	  		var latlng0 = new google.maps.LatLng(data[i].entity.lat,data[i].entity.lng);
@@ -22,7 +22,7 @@ function geotaggingInitialize() {
 
 			markerArray[i].id = data[i].entity.id;
 			markerArray[i].updated_at = data[i].entity.updated_at;
-			markerArray[i].html = '<div style="font-size: 32px;line-height: 36px;"><b>' + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "<a href='#' onClick=\"window.open('/entities/" + data[i].entity.id + "', '_blank', 'width=400,height=600,resizable=no'); return false;\">Detail</a></div>";
+			markerArray[i].html = '<div style="font-size: 32px;line-height: 36px;"><b>' + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "<a href='#' onClick=\"window.open('http://geotagging.heroku.com/entities/" + data[i].entity.id + "', '_blank', 'width=400,height=600,resizable=no'); return false;\">Detail</a></div>";
 	  		markerArray[i].set("icon", data[i].entity.icon_uri);
 
 
@@ -47,7 +47,7 @@ function updateMarkers() {
   		content: 'holding...'
   	});
 
-    $.getJSON('/api/entities.js?callback=?', function(data) {
+    $.getJSON('http://geotagging.heroku.com/api/entities.js?callback=?', function(data) {
   	for(var i=0; i<data.length; i++)
   	{
   	 	//console.log("entity id on server: " + data[i].entity.id);
@@ -97,7 +97,7 @@ function updateMarkers() {
   			
   			markerArrayCopy[i].id = data[i].entity.id;
   			markerArrayCopy[i].updated_at = data[i].entity.updated_at;
-  			markerArrayCopy[i].html = '<div style="font-size: 32px;line-height: 36px;"><b>' + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "<a href='#' onClick=\"window.open('/entities/" + data[i].entity.id + "', '_blank', 'width=400,height=600,resizable=no'); return false;\">Detail</a></div>";
+  			markerArrayCopy[i].html = '<div style="font-size: 32px;line-height: 36px;"><b>' + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "<a href='#' onClick=\"window.open('http://geotagging.heroku.com/entities/" + data[i].entity.id + "', '_blank', 'width=400,height=600,resizable=no'); return false;\">Detail</a></div>";
   			markerArrayCopy[i].set("icon",data[i].entity.icon_uri);
 
 

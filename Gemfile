@@ -2,11 +2,11 @@ source 'http://rubygems.org'
 
 gem 'rails', '2.3.8'
 gem 'authlogic'
+gem 'paperclip'
 
 gem 'sqlite3-ruby'
 gem 'mongrel'
 gem 'taps'
-#gem 'paperclip', :git => "http://github.com/thoughtbot/paperclip.git"
 
 group :developement, :test do
 	gem 'rake'

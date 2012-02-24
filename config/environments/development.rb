@@ -17,6 +17,3 @@ config.action_controller.perform_caching             = false
 config.action_mailer.raise_delivery_errors = false
 
 config.time_zone = "Pacific Time (US & Canada)"
-
-#Paperclip.options[:command_path] = "/usr/local/bin/"
-
