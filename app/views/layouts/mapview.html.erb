@@ -5,9 +5,22 @@
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
 	
 	<link href="stylesheets/style.css" media="screen" rel="stylesheet" type="text/css" /> 
+ 	<link rel="stylesheet" type="text/css" href="stylesheets/jwebsocket.css" />
  
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
- 
+ 		
+ 		<%= javascript_include_tag 'websocket/jWebSocket.js', :cache => true %>
+ 		<%= javascript_include_tag 'websocket/hyperwallPlugIn.js', :cache => true %>
+ 		<%= javascript_include_tag 'websocket/jwsJDBCPlugIn.js', :cache => true %>
+ 		<%= javascript_include_tag 'websocket/jwsFilesystemPlugIn.js', :cache => true %>
+ 		
+ 		<%= javascript_include_tag 'hyperwall/modernizr-1.6.min.js', :cache => true %>
+ 		<%= javascript_include_tag 'hyperwall/jquery.ba-throttle-debounce.min.js', :cache => true %>
+ 		<%= javascript_include_tag 'hyperwall/bigtext.js', :cache => true %>
+ 		
+ 		<%= javascript_include_tag 'hyperwall/part1.js', :cache => true %>
+ 		<%= javascript_include_tag 'hyperwall/part2.js', :cache => true %>
+ 		
         <%= javascript_include_tag 'geotagging.js', :cache => true %>
 
         <script type="text/javascript"
@@ -17,6 +30,8 @@
 		<script type="text/javascript"
             src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"> 
         </script> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>  
 
         
 
@@ -29,7 +44,7 @@
               center: cmupoint,
               mapTypeId: google.maps.MapTypeId.ROADMAP
             };
-            map = new google.maps.Map(document.getElementById("map_canvas"),
+            	map = new google.maps.Map(document.getElementById("map_canvas"),
                 mapOptions);
 				geotaggingInitialize();
 			}
@@ -38,7 +53,7 @@
  
  
 </head> 
-<body onload="initialize()">
+<body onload="initialize(); initPage(); logon(); startMouse(); " onunload="exitPage();">
 <!-- Header -->
 
 <%= yield %>

@@ -1,3 +1,60 @@
+<!--
+<h1>Hyperwall Web Client</h1>
+<p>CMU Tech Showcase Demo, 06 August 2011</p>
+<a href="#" onclick='createNewUser("Markus", "Lachinger", "Student at CMU SV", "Mountain View, CA")'>Click to add a new Test-User</a>
+Usage of User-Sidepanel beta:
+<ul>
+    <li>Click link above to create new user</li>
+    <li>Click on rotated name to hide or show</li>
+    <li>Click on image or text to delete.</li>
+</ul>
+The resize-event is now debounced at 800ms, the user panel can look weird
+for the duration of the resize if set lower  
+(don't know why, but we have no real need for decerasing this value)
+-->
+
+<!--div id="map" onclick="testfunc()" style="width:98%;height:1600px">
+</div-->
+<div id="sdivChat" class="sdivContainer"
+    style="position:relative; height:300px; overflow:auto;">
+</div>
+<div class="sdivContainer">
+    <table class="stlbDlg" border="0" cellpadding="3" cellspacing="0" width="100%">
+        <tr class="strDlg">
+            <td class="stdDlg" width="5">Username</td>
+            <td class="stdDlg" width="5"><input class="stxfDlg" id="stxfUsername" type="text" value="HyperwallUser" style="width:150px"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnLogon" type="button" value="Login" onclick="logon();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnClear" type="button" value="Clear Log" onclick="clearLog();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnExCmObj" type="button" value="Complex Obj." onclick="exchangeComplexObjects();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnListener" type="button" value="Listener" onclick="sampleListener();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnSaveFile" type="button" value="Save File" onclick="saveFile();"></td>
+            <td class="stdDlg" width=""><input class="sbtnDlg" id="sbtnGetFaisal" type="button" value="GetFaisal" onclick="requestFaisal();"></td>
+            <td class="stdDlg" width=""><!--<input class="sbtnDlg" id="sbtnCGITest" type="button" value="CGI Test" onclick="cgiTest();">--></td>
+        </tr>
+        <tr class="strDlg">
+            <td class="stdDlg" width="5">Password</td>
+            <td class="stdDlg" width="5"><input class="spwfDlg" id="spwfPassword" type="password" value="" style="width:150px"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnLogoff" type="button" value="Logoff" onclick="logoff();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnBroadcast" type="button" value="Broadcast" onclick="broadcast();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnGetTime" type="button" value="GetTime" onclick="sampleGetTime();"></td>
+            <td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnSelect" type="button" value="Select" onclick="sampleSelect();"></td>
+            <td class="stdDlg" width=""><input class="sbtnDlg" id="sbtnLoadFile" type="button" value="Load File" onclick="loadFile();"></td>
+        </tr>
+        <tr class="strDlg">
+            <td class="stdDlg" width="5">Message</td>
+            <td class="stdDlg" width="" colspan="5"><input class="stxfDlg" id="stxfMessage" type="text" value="Your Message" style="width:99%"></td>
+        </tr>
+    </table>
+</div>
+<div id="myTextDiv" style="color: white; position: absolute; opacity: .90; -moz-opacity: 0.90; filter:alpha(opacity=90); width: 25%; min-width: 200px;">
+    <h1>Connected users</h1>
+</div>
+<div id="activeStatusInfo" style="position: absolute; top:0px; left:40%; width:20%; height: 5%; color: white; background-color: gray; opacity: .80; -moz-opacity: 0.80; filter:alpha(opacity=80);">
+    Active Users: Martin, Ted, Faisal
+</div>
+
+
+
 <div id="mapview">
   <div id="iconinstruction">
     <p><%= image_tag "icons/Crime.png" %>Crime</p>
@@ -9,5 +66,29 @@
   <div id="map_canvas">
     
   </div>
-  
+  <style type="text/css">
+    img.mouse1 {
+        position: absolute;
+        z-index: 99;
+        height: 50px;
+        width: 50px;
+    }
+
+    img.mouse2 {
+        position: absolute;
+        z-index: 180;
+        height: 50px;
+        width: 50px;
+    }
+
+    img.mouse3 {
+        position: absolute;
+        z-index: 199;
+        height: 50px;
+        width: 50px;
+    }
+</style>
+  	<img class="mouse1" id="mouse1" src="/images/EMS.jpg" alt="buggy1" />
+	<img class="mouse2" id="mouse2" src="/images/COMM.jpg" alt="buggy2" />
+	<img class="mouse3" id="mouse3" src="/images/FIRE.jpg" alt="buggy3" />
 </div>
