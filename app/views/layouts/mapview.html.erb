@@ -9,19 +9,32 @@
  
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" /> 
  		
- 		<%= javascript_include_tag 'websocket/jWebSocket.js', :cache => true %>
- 		<%= javascript_include_tag 'websocket/hyperwallPlugIn.js', :cache => true %>
- 		<%= javascript_include_tag 'websocket/jwsJDBCPlugIn.js', :cache => true %>
- 		<%= javascript_include_tag 'websocket/jwsFilesystemPlugIn.js', :cache => true %>
+ 		<!-- javascript_include_tag 'websocket/jWebSocket.js', :cache => true %>
+ 		<= javascript_include_tag 'websocket/hyperwallPlugIn.js', :cache => true %>
+ 		<= javascript_include_tag 'websocket/jwsJDBCPlugIn.js', :cache => true %>
+ 		<= javascript_include_tag 'websocket/jwsFilesystemPlugIn.js', :cache => true %>
  		
- 		<%= javascript_include_tag 'hyperwall/modernizr-1.6.min.js', :cache => true %>
- 		<%= javascript_include_tag 'hyperwall/jquery.ba-throttle-debounce.min.js', :cache => true %>
- 		<%= javascript_include_tag 'hyperwall/bigtext.js', :cache => true %>
+ 		<= javascript_include_tag 'hyperwall/modernizr-1.6.min.js', :cache => true %>
+ 		<= javascript_include_tag 'hyperwall/jquery.ba-throttle-debounce.min.js', :cache => true %>
+ 		<= javascript_include_tag 'hyperwall/bigtext.js', :cache => true %>
  		
- 		<%= javascript_include_tag 'hyperwall/part1.js', :cache => true %>
- 		<%= javascript_include_tag 'hyperwall/part2.js', :cache => true %>
- 		
-        <%= javascript_include_tag 'geotagging.js', :cache => true %>
+ 		<= javascript_include_tag 'hyperwall/part1.js', :cache => true %>
+ 		<= javascript_include_tag 'hyperwall/part2.js', :cache => true %-->
+
+        <script type="text/javascript" src="/javascripts/websocket/jWebSocket.js"></script>
+        <script type="text/javascript" src="/javascripts/websocket/hyperwallPlugIn.js"></script>
+        <script type="text/javascript" src="/javascripts/websocket/jwsJDBCPlugIn.js"></script>
+        <script type="text/javascript" src="/javascripts/websocket/jwsFilesystemPlugIn.js"></script>
+
+
+        <script type="text/javascript" src="/javascripts/hyperwall/modernizr-1.6.min.js"></script>
+        <script type="text/javascript" src="/javascripts/hyperwall/jquery.ba-throttle-debounce.min.js"></script>
+        <script type="text/javascript" src="/javascripts/hyperwall/bigtext.js"></script>
+
+        <script type="text/javascript" src="/javascripts/part1.js"></script>
+        <script type="text/javascript" src="/javascripts/part2.js"></script>
+
+        <script type="text/javascript" src="/javascripts/geotagging.js"></script>
 
         <script type="text/javascript"
             src="http://maps.google.com/maps/api/js?sensor=true"> 

@@ -18,6 +18,16 @@
 <p class="descriptive-content">
   <%=h @comment.description %>
 </p>
+  <% if @comment.image_url != nil && @comment.image_url.empty? == false %>
+      <%
+        small_url = @comment.image_url
+        url = @comment.image_url.sub(/_small/,"")
+
+      %>
+      <a href="<%= url %>" target="_new">
+        <%= image_tag @comment.image_url %>
+      </a>
+  <% end %>
 </div>
 
 <p class="descriptive-instruction">Select a category to view or add follow up responses.</p>

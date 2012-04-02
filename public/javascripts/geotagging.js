@@ -32,7 +32,22 @@ function geotaggingInitialize() {
 	   		});
 
 	   	}
-	   });
+	});
+
+    google.maps.event.addListener(map,'dblclick',function(event){
+        console.log("here");
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        var newEntityUrl = "/entities/new?lat="+lat+"&lng="+lng;
+        location.href = newEntityUrl;
+    });
+
+}
+
+function addNewEntity(event){
+    infowindow.setContent(this.html);
+    infowindow.open(map, this);
+
 }
 
 

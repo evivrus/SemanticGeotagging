@@ -47,6 +47,11 @@ class EntitiesController < ApplicationController
   def new
     @entity = Entity.new
 
+    if params[:lat].nil? == false && params[:lng].nil? == false
+      @entity.lat = params[:lat];
+      @entity.lng = params[:lng];
+    end
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @entity }
