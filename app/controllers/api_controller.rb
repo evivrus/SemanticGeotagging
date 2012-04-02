@@ -82,7 +82,14 @@ class ApiController < ApplicationController
       @entities = Entity.find :all,
         :conditions => [" id > ? ", since_id], :limit=>count
     end
-    
+
+
+    #@entities.each{ |entity|
+    #  if entity.icon.uri.nil? == false && entity.icon.url.empty? == false
+    #    entity.icon_uri = entity.icon.url
+    #  end
+    #}
+
     respond_to do |format|
       format.xml  { render :xml => @entities }
       format.json { render :json => @entities }
@@ -205,6 +212,8 @@ class ApiController < ApplicationController
   end
 
   def create_entity
+    icon_name = params[:entity][:icon_name];
+    params[:entity][:icon_id] = Icon.find_by_name(icon_name).id
     @entity = Entity.new(params[:entity])
 
     respond_to do |format|

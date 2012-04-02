@@ -62,7 +62,12 @@ ActionController::Routing::Routes.draw do |map|
     :conditions => { :method => :get},
     :controller => "pages", 
     :action => "data_management"
-    
+
+  map.set_incident "entities/set_incident",
+    :conditions => {:method => :get},
+    :controller => "entities",
+    :action => "set_incident"
+
   map.mapview "mapview",
     :conditions => { :method => :get},
     :controller => "mapview", 

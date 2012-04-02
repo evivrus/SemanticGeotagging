@@ -58,6 +58,18 @@ class EntitiesController < ApplicationController
     end
   end
 
+
+  def set_incident
+    incidents = [false,false,false,true,true,true,false,true,true,true]
+
+    @icons = Icon.all;
+    @icons.each{ |icon|
+      icon.is_incident = incidents[icon.id]
+      icon.save!
+    }
+
+  end
+
   # GET /entities/1/edit
   def edit
     @entity = Entity.find(params[:id])
@@ -67,6 +79,9 @@ class EntitiesController < ApplicationController
   # POST /entities.xml
   def create
     @entity = Entity.new(params[:entity])
+
+    @entity.icon_name = @entity.icon.name
+    @entity.icon_uri = @entity.icon.url
 
     respond_to do |format|
       if @entity.save

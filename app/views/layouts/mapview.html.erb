@@ -31,8 +31,8 @@
         <script type="text/javascript" src="/javascripts/hyperwall/jquery.ba-throttle-debounce.min.js"></script>
         <script type="text/javascript" src="/javascripts/hyperwall/bigtext.js"></script>
 
-        <script type="text/javascript" src="/javascripts/part1.js"></script>
-        <script type="text/javascript" src="/javascripts/part2.js"></script>
+        <script type="text/javascript" src="/javascripts/hyperwall/part1.js"></script>
+        <script type="text/javascript" src="/javascripts/hyperwall/part2.js"></script>
 
         <script type="text/javascript" src="/javascripts/geotagging.js"></script>
 
@@ -55,6 +55,7 @@
             var mapOptions = {
               zoom: 17,
               center: cmupoint,
+              disableDoubleClickZoom: true,
               mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             	map = new google.maps.Map(document.getElementById("map_canvas"),

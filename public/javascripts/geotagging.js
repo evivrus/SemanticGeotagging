@@ -36,8 +36,8 @@ function geotaggingInitialize() {
 
     google.maps.event.addListener(map,'dblclick',function(event){
         console.log("here");
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
+        var lat = event.latLng.lat().toPrecision(8);
+        var lng = event.latLng.lng().toPrecision(8);
         var newEntityUrl = "/entities/new?lat="+lat+"&lng="+lng;
         location.href = newEntityUrl;
     });
