@@ -5,7 +5,7 @@
   <%= link_to image_tag("/images/back_image.png", {:alt => 'example', :id=>"header-img-back"}), comment_responses_path(@comment.comment_id, :category_id=>@comment.category_id) %>
   <% end %>
   <div id="header-text">
-    Follow up responses
+    Comment Content
   </div>
   <%= link_to(image_tag("/images/home_image.png", {:alt => 'example', :id=>"header-img-home"}), {:controller=>'entities', :action => 'show', :id => session[:home_entity_id]}) %>
 <% end %>

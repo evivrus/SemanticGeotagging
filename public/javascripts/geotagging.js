@@ -39,7 +39,9 @@ function geotaggingInitialize() {
         var lat = event.latLng.lat().toPrecision(8);
         var lng = event.latLng.lng().toPrecision(8);
         var newEntityUrl = "/entities/new?lat="+lat+"&lng="+lng;
-        location.href = newEntityUrl;
+
+        window.open(newEntityUrl,'_blank','width=400,height=600,resizable=no');
+        //location.href = newEntityUrl;
     });
 
 }

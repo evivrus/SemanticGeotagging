@@ -1,6 +1,6 @@
 <% content_for :header_content do%>
   <div id="header-text">
-    Semantic Geotagging
+    Entity Content
   </div>
   <%= link_to(image_tag("/images/home_image.png", {:alt => 'example', :id=>"header-img-home"}), {:controller=>'entities', :action => 'show', :id => session[:home_entity_id]}) %>
 <% end %>

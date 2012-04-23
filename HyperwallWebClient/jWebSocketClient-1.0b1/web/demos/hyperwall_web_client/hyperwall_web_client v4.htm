@@ -1,0 +1,680 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD html 4.01//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<!-- If Google's chrome frame installed, use it! -->
+		<!-- Comment needs to be BELOW this meta tag! -->
+<!--
+//	****************************************************************************
+//	Hyperwall Web Client (uses jWebSocket Client and Server)
+//	(C) 2011 Faisal Luqman
+//	****************************************************************************
+-->
+		<meta http-equiv="Content-Language" content="en">
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+		<title>Hyperwall Web Client</title>
+		<link rel="stylesheet" type="text/css" href="../../res/css/jwebsocket.css">
+		<!-- load the jWebSocket JavaScript client library -->
+		<script type="text/javascript" src="../../res/js/jWebSocket.js"></script>
+		<!-- import hyperwall web client side splug-in -->
+		<script type="text/javascript" src="../../res/js/hyperwallPlugIn.js"></script>
+		<!-- import client side JDBC plug-in -->
+		<script type="text/javascript" src="../../res/js/jwsJDBCPlugIn.js"></script>
+		<!-- import client side file system plug-in -->
+		<script type="text/javascript" src="../../res/js/jwsFilesystemPlugIn.js"></script>
+		<!-- import Google maps -->
+		<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+		<script type="text/javascript" language="JavaScript">
+		
+
+			var eLog = null;
+			
+			var domMap = document.getElementById('map');
+			var map;
+			var marker;
+			var overlay;
+			var geocoder;
+			var lastRecordedTime = (new Date).getTime();
+			var vx = 0;
+			var vy = 0;
+			var touchX0 = -1;
+			var touchY0 = -1;
+			var touchX1 = -1;
+			var touchY1 = -1;
+			var lng_span = -1;
+			var lat_span = -1;
+			var south_west_lat = -1;
+			var south_west_lng = -1;
+			
+			// mouse member variables
+			var INTERVAL = 20;
+			var MAXSPEED = 10;
+			var MAXDURATION = 200;
+
+			// The maximal screen positions allowed (0,0 implied as minimal):
+			var xmax = 0;
+			var ymax = 0;
+
+			function log( aString ) {
+				eLog.innerHTML +=
+					aString + "<br>";
+				if( eLog.scrollHeight > eLog.clientHeight ) {
+					eLog.scrollTop = eLog.scrollHeight - eLog.clientHeight;
+				}
+			}
+
+			function clearLog() {
+				eLog.innerHTML = "";
+				eLog.scrollTop = 0;
+			}
+
+			var jWebSocketClient = null;
+			var gUsername = null;
+
+			function logon() {
+				// URL is ws://[yourhostname|localhost]:8787
+				var lURL = jws.JWS_SERVER_URL;
+				//var lURL = 'ws://10.0.12.65:8787'
+				gUsername = eUsername.value;
+				var lPassword = ePassword.value;
+				ePassword.value = "";
+
+				log( "Connecting to " + lURL + " and logging in as '" + gUsername + "'..." );
+				var lRes = jWebSocketClient.logon( lURL, gUsername, lPassword, {
+					// OnOpen callback
+					OnOpen: function( aEvent ) {
+						log( "<font style='color:#888'>jWebSocket connection established.</font>" );
+					},
+					// OnMessage callback
+					OnMessage: function( aEvent, aToken ) {
+						var lDate = "";
+						if( aToken.date_val ) {
+							lDate = jws.tools.ISO2Date( aToken.date_val );
+						}
+						//log( "<font style='color:#888'>jWebSocket '" + aToken.type + "' token received, full message: '" + aEvent.data + "' " + lDate + "</font>" );
+					},
+					// OnClose callback
+					OnClose: function( aEvent ) {
+						log( "<font style='color:#888'>jWebSocket connection closed.</font>" );
+					}
+				});
+
+				log( jWebSocketClient.resultToString( lRes ) );
+			}
+
+			function logoff() {
+				if( jWebSocketClient ) {
+					log( "Logging off " + ( gUsername != null ? "'" + gUsername + "'" : "" ) + " and disconnecting..." );
+					// the timeout below  is optional, if you use it you'll get a good-bye message.
+					var lRes = jWebSocketClient.close({ timeout: 3000 });
+					log( jWebSocketClient.resultToString( lRes ) );
+				}
+			}
+
+			function broadcast() {
+				var lMsg = eMessage.value;
+				if( lMsg.length > 0 ) {
+					log( "Broadcasting '" + lMsg + "'..." );
+					var lRes = jWebSocketClient.broadcastText(
+						"",		// broadcast to all clients (not limited to a certain pool)
+						lMsg	// broadcast this message
+					);
+					// log error only, on success don't confuse the user
+					if( lRes.code != 0 ) {
+						log( jWebSocketClient.resultToString( lRes ) );
+					}
+					eMessage.value = "";
+				}
+			}
+
+			// example how to exchange arbitrary complex objects between clients
+			// the processComplexObject method in the server side sample plug-in
+			function exchangeComplexObjects() {
+				if( jWebSocketClient.isConnected() ) {
+					var lToken = {
+						ns: jws.SamplesPlugIn.NS,
+						type: "processComplexObject",
+						int_val: 1234,
+						float_val: 1234.5678,
+						bool_val: true,
+						date_val: jws.tools.date2ISO( new Date() ),
+						object: {
+							field1: "value1",
+							field2: "value2",
+							array1: [ "array1Item1", "array1Item2" ],
+							array2: [ "array2Item1", "array2Item2" ],
+							object1: { obj1field1: "obj1value1", obj1field2: "obj1value2" },
+							object2: { obj2field1: "obj2value1", obj2field2: "obj2value2" }
+						}
+					};
+					jWebSocketClient.sendToken( lToken,	{
+					});
+				} else {
+					log( "Not connected." );
+				}
+			}
+
+			// example how to exchange data with a server side listener
+			function sampleListener() {
+				if( jWebSocketClient.isConnected() ) {
+					var lToken = {
+						ns: "my.namespace",
+						type: "getInfo"
+					};
+					jWebSocketClient.sendToken( lToken,	{
+						OnResponse: function( aToken ) {
+							log("Server responded: "
+								+ "vendor: " + aToken.vendor
+								+ ", version: " + aToken.version
+							);
+						}
+					});
+				} else {
+					log( "Not connected." );
+				}
+			}
+
+			// example how to request a result from a server side plugin
+			function sampleGetTime() {
+				log( "Requesting server time via WebSockets..." );
+				// call the getTime method of the client side plug-in
+				var lRes = jWebSocketClient.requestServerTime();
+				// log error only, on success don't confuse the user
+				if( lRes.code != 0 ) {
+					log( jWebSocketClient.resultToString( lRes ) );
+				}
+			}
+			
+			function requestFaisal() {
+				log( "Requesting Faisal via WebSockets..." );
+				// call the requestFaisal method of the Hyperwall client side plug-in
+				var lRes = jWebSocketClient.requestFaisal();
+				// log error only, on success don't confuse the user
+				if( lRes.code != 0 ) {
+					log( jWebSocketClient.resultToString( lRes ) );
+				}
+			}
+
+			function getServerTimeCallback( aToken ) {
+				log( "Server time: " + aToken.time );
+			}
+
+			// example how to request a result from a server side plugin
+			function sampleSelect() {
+				log( "Requesting JDBC data via WebSockets..." );
+				// call the getTime method of the client side plug-in
+				var lRes = jWebSocketClient.jdbcSelect({
+					table	: "locales",
+					fields	: "*",
+					order	: "code",
+					where	: "",
+					group	: "",
+					having	: ""
+				});
+				// log error only, on success don't confuse the user
+				if( lRes.code != 0 ) {
+					log( jWebSocketClient.resultToString( lRes ) );
+				}
+			}
+
+			function loadFile() {
+				log( "Loading a file from the server via WebSockets..." );
+				// call the getTime method of the client side plug-in
+				var lRes = jWebSocketClient.fileLoad( "test.txt", {
+				});
+				// log error only, on success don't confuse the user
+				if( lRes.code != 0 ) {
+					log( jWebSocketClient.resultToString( lRes ) );
+				}
+			}
+
+			function saveFile() {
+				log( "Saving a file from the server via WebSockets..." );
+				// call the getTime method of the client side plug-in
+				var lRes = jWebSocketClient.fileSave( "test.txt", eMessage.value, {
+				});
+				// log error only, on success don't confuse the user
+				if( lRes.code != 0 ) {
+					log( jWebSocketClient.resultToString( lRes ) );
+				}
+			}
+			
+			function cgiTest() {
+				jWebSocketClient.sendToken({
+					ns: "org.jWebSocket.plugins.system",
+					type: "send",
+					subType: "exec",
+					unid: "ssal",
+					cmd: "test()"
+				});
+			}
+
+			function onFileLoadedObs( aToken ) {
+				log( "Loaded file: " + aToken.data );
+			}
+
+			function onFileErrorObs( aToken ) {
+				log( "Error loading file: " + aToken.msg );
+			}
+
+			function onFileSavedObs( aToken ) {
+				var lHTML = "<img src=\"" + aToken.url + "\"/>";
+				log( lHTML );
+			}
+
+			function initPage() {
+				eLog = jws.$( "sdivChat" );
+				eMessage = jws.$( "stxfMessage" );
+				eUsername = jws.$( "stxfUsername" );
+				ePassword = jws.$( "spwfPassword" );
+
+				// jws.browserSupportsWebSockets checks web if sockets are available
+				// either natively, by the Flash Bridge or by the Chrome Frame.
+				if( jws.browserSupportsWebSockets() ) {
+					jWebSocketClient = new jws.jWebSocketJSONClient();
+					jWebSocketClient.setSamplesCallbacks({
+						OnSamplesServerTime: getServerTimeCallback
+					});
+					jWebSocketClient.setFileSystemCallbacks({
+						OnFileLoaded: onFileLoadedObs,
+						OnFileSaved: onFileSavedObs,
+						OnFileError: onFileErrorObs
+					});
+					eUsername.focus();
+				} else {
+					jws.$( "sbtnLogon" ).setAttribute( "disabled", "disabled" );
+					jws.$( "sbtnLogoff" ).setAttribute( "disabled", "disabled" );
+					jws.$( "sbtnClear" ).setAttribute( "disabled", "disabled" );
+					jws.$( "sbtnBroadcast" ).setAttribute( "disabled", "disabled" );
+					jws.$( "stxfMessage" ).setAttribute( "disabled", "disabled" );
+					jws.$( "stxfUsername" ).setAttribute( "disabled", "disabled" );
+					jws.$( "spwfPassword" ).setAttribute( "disabled", "disabled" );
+
+					var lMsg = jws.MSG_WS_NOT_SUPPORTED;
+					alert( lMsg );
+					log( lMsg );
+				}
+			}
+
+			function exitPage() {
+				logoff();
+			}
+
+			function load() {
+				var latlng = new google.maps.LatLng(37.41046, -122.060616);
+
+				var myOptions = {
+					zoom: 8,
+					center: latlng,
+					mapTypeId: google.maps.MapTypeId.TERRAIN,
+					mapTypeControl: false,
+					navigationControl: false
+				};
+
+				map = new google.maps.Map(document.getElementById("map"), myOptions);
+				geocoder = new google.maps.Geocoder();
+
+				google.maps.event.addListener(map, 'click', function(event) {
+					mapClickHandler(event.latLng);
+				});
+   
+				google.maps.event.addListener(map, 'idle', function(event) {
+					var bounds = map.getBounds();
+					var southWest = bounds.getSouthWest();
+					var northEast = bounds.getNorthEast();
+					var lngSpan = northEast.lng() - southWest.lng();
+					var latSpan = northEast.lat() - southWest.lat();
+
+					lng_span = lngSpan;
+					lat_span = latSpan;
+					south_west_lat = southWest.lat();
+					south_west_lng = southWest.lng();
+
+					var    lxmax = document.documentElement.clientWidth;
+					var    lymax = document.documentElement.clientHeight;
+
+					console.log("lng_span coordinate:" + lng_span);
+					console.log("lat_span coordinate:" + lat_span);
+					console.log("northEast lat:" + northEast.lat());
+					console.log("northEast lng:" + northEast.lng());
+					console.log("southWest lat:" + south_west_lat);
+					console.log("southWest lng:" + south_west_lng);
+					console.log("lxmax:" + lxmax);
+					console.log("lymax:" + lymax);
+				});
+
+				overlay = new google.maps.OverlayView();
+				overlay.draw = function() {};
+				overlay.setMap(map);
+				
+				// set overlay for users connected to hyperwall
+				var myControl = document.getElementById('myTextDiv');
+				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(myControl);
+				
+				// set overlay for status window of active users to hyperwall
+				var activeUsers = document.getElementById('activeStatusInfo');
+				map.controls[google.maps.ControlPosition.TOP].push(activeUsers);
+			}
+			
+			// if the page is resized, reset the limits
+			function setLimits( )
+			{
+				//xmax = document.documentElement.clientWidth - 48;
+				//ymax = document.documentElement.clientHeight - 48;
+				xmax = document.documentElement.clientWidth;
+				ymax = 550;
+				console.log("xmax:" + xmax);
+				console.log("ymax:" + ymax);
+			}
+			
+			function zoomIn()
+			{
+				var currentZoom = map.getZoom();
+				console.log("zoomIn() called with current zoom level: " + currentZoom);
+				map.setZoom(currentZoom + 1);
+			}
+			
+			function zoomOut()
+			{
+				var currentZoom = map.getZoom();
+				console.log("zoomIn() called with current zoom level: " + currentZoom);
+				map.setZoom(currentZoom - 1);
+			}
+			
+			function testCall( )
+			{
+				console.log("works!!");
+			}
+			
+			// constructor for one "Mouse" object:
+			function Mouse( obj, x,y,dx,dy,t )
+			{
+				this.object   = obj;
+				this.xpos     = x;
+				this.ypos     = y;
+			}
+
+			// the master array controlling everything:
+			var mouse = [];
+			
+			// called when the page is loaded...sets up all the bugs
+			function startMouse( )
+			{
+				setLimits(); // on startup, same as a resize
+				// handles any number of bugs, up to 10
+				for ( var mouseNum = 1; mouseNum < 5; ++mouseNum )
+				{
+				// find one
+				var mouseImage = document.getElementById("mouse"+mouseNum);
+				if ( mouseImage == null ) break; // but stop when no more to be found
+
+				// put this bug, with its initial info, into the array:
+				mouse[mouseNum] =
+				new Mouse( mouseImage,
+					200,
+					200
+					);
+				}
+			}
+			
+			function updateMap(id, accelX, accelY)
+			{
+				if (!map) return;
+
+				var presentTime = (new Date).getTime();
+				var t = (presentTime - lastRecordedTime) / 1000; // seconds
+				lastRecordedTime = presentTime;
+				
+				var factor = 1;
+				var airmouse_1_x = accelX * factor;
+				var airmouse_1_y = accelY * factor;
+				
+				movemouse(id, airmouse_1_x, airmouse_1_y);
+				
+			}
+			
+			
+			function movemouse(id, accelX, accelY)
+			{
+				var bug = mouse[id];
+				var factor = 2;
+
+				accelX = accelX * factor;
+				accelY = accelY * factor;
+
+				// find new position
+				var x = bug.xpos + accelX;
+				var y = bug.ypos + accelY;
+
+				// dont allow position to be out of bounds
+				if ( x < 0 ) x = 0;
+				else if ( x > xmax ) x = xmax;
+				if ( y < 0 ) y = 0;
+				else if ( y > ymax ) y = ymax;
+
+				// finally, store the position back in array...
+				bug.xpos = x; bug.ypos = y;
+				// and move the object
+				bug.object.style.left = x + "px";
+				bug.object.style.top  = y + "px";
+				bug = null; // memory leak debug, set null 
+			}
+			
+			function mouseClick(id)
+			{
+				console.log("mouse clicked with id: " + id);
+				//setLimits();
+				
+				var bug = mouse[id];
+				
+				// find current position
+				var x = bug.xpos;
+				var y = bug.ypos;
+				
+				if(x > 1050)
+				{
+					if(y < 160)
+					{
+						// call martin
+						if( jWebSocketClient.isConnected() ) 
+						{
+							jWebSocketClient.sendToken({
+								type: "call",
+								num: "6507777777"
+							});
+						}
+					}
+					else if(y > 160 && y < 290)
+					{
+						// call ted
+						if( jWebSocketClient.isConnected() ) 
+						{
+							jWebSocketClient.sendToken({
+								type: "call",
+								num: "6508888888"
+							});
+						}
+					}
+					else if(y > 290 && y < 430)
+					{
+						// call faisal
+						if( jWebSocketClient.isConnected() ) 
+						{
+							jWebSocketClient.sendToken({
+								type: "call",
+								num: "6509999999"
+							});
+						}
+					}
+				
+					
+				}
+				
+				console.log("xmax: " + xmax + " ymax: " + ymax + "current positions x:" + x + " y:" + y);				
+				var diff = ymax - y;
+				var diffRatio = diff/ymax;
+				var latDiff = diffRatio * lat_span;
+				var clat =  south_west_lat + latDiff;
+				console.log("diff:" + diff);
+				console.log("diffRatio:" + diffRatio);
+				console.log("latDiff:" + latDiff);
+				console.log("clat:" + clat);
+
+				diff = x;
+				diffRatio = diff/xmax;
+				var lngDiff = diffRatio * lng_span;
+				var clng =  south_west_lng + lngDiff;
+				console.log("diff:" + diff);
+				console.log("diffRatio:" + diffRatio);
+				console.log("lngDiff:" + lngDiff);
+				console.log("clng:" + clng);
+
+				setMarkers(clat, clng);
+			}
+			
+			var beaches = [
+				['Bondi Beach', 37.41046, -122.060616, 4],
+				['Coogee Beach', 37.41046, -122.060616, 5],
+				['Cronulla Beach', 37.41046, -122.060616, 3],
+				['Manly Beach', 37.41046, -122.060616, 2],
+				['Maroubra Beach', 37.41046, -122.060616, 1]
+			];
+			
+			function setMarkers(clat, clng) 
+			{
+				console.log("setMarkers called!");
+				// Add markers to the map
+
+				// Marker sizes are expressed as a Size of X,Y
+				// where the origin of the image (0,0) is located
+				// in the top left of the image.
+
+				// Origins, anchor positions and coordinates of the marker
+				// increase in the X direction to the right and in
+				// the Y direction down.
+				var image = new google.maps.MarkerImage('beachflag.png',
+				// This marker is 20 pixels wide by 32 pixels tall.
+				new google.maps.Size(20, 32),
+				// The origin for this image is 0,0.
+				new google.maps.Point(0,0),
+				// The anchor for this image is the base of the flagpole at 0,32.
+				new google.maps.Point(0, 32));
+				var shadow = new google.maps.MarkerImage('beachflag_shadow.png',
+				// The shadow image is larger in the horizontal dimension
+				// while the position and offset are the same as for the main image.
+				new google.maps.Size(37, 32),
+				new google.maps.Point(0,0),
+				new google.maps.Point(0, 32));
+				// Shapes define the clickable region of the icon.
+				// The type defines an HTML &lt;area&gt; element 'poly' which
+				// traces out a polygon as a series of X,Y points. The final
+				// coordinate closes the poly by connecting to the first
+				// coordinate.
+				var shape = {
+				coord: [1, 1, 1, 20, 18, 20, 18 , 1],
+				type: 'poly'
+				};
+				//for (var i = 0; i < locations.length; i++) {
+				var beach = beaches[0];
+				//var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+				var myLatLng = new google.maps.LatLng(clat, clng);
+				var marker = new google.maps.Marker({
+					position: myLatLng,
+					map: map,
+					shadow: shadow,
+					icon: image,
+					shape: shape,
+					title: beach[0],
+					zIndex: beach[3]
+				});
+			}
+		</script>
+	
+
+	</head>
+
+	<body
+		onload="initPage(); logon(); startMouse(); load();"
+		onunload="exitPage();"
+		onresize="setLimits();"
+		>
+<!--	remarked temporarily due to chrome 5 browser bug
+		<script type="text/javascript">
+			var lFrameElem = this.frameElement;
+			if( !lFrameElem ) {
+				location.replace( "../../index.htm?page=demos/hello_world/hello_world.htm" );
+				// location.href = "../../index.htm?page=demos/hello_world/hello_world.htm" ;
+			}
+		</script>
+-->		
+		<h1>Hyperwall Web Client</h1>
+		<p>CMU Tech Showcase Demo, 06 August 2011</p>
+		<div id="map" onclick="testfunc()" style="width:98%;height:550px">
+		</div>
+		<div id="sdivChat" class="sdivContainer"
+			 style="position:relative; height:300px; overflow:auto;">
+		</div>
+		<div class="sdivContainer">
+			<table class="stlbDlg" border="0" cellpadding="3" cellspacing="0" width="100%">
+				<tr class="strDlg">
+					<td class="stdDlg" width="5">Username</td>
+					<td class="stdDlg" width="5"><input class="stxfDlg" id="stxfUsername" type="text" value="HyperwallUser" style="width:150px"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnLogon" type="button" value="Login" onclick="logon();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnClear" type="button" value="Clear Log" onclick="clearLog();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnExCmObj" type="button" value="Complex Obj." onclick="exchangeComplexObjects();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnListener" type="button" value="Listener" onclick="sampleListener();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnSaveFile" type="button" value="Save File" onclick="saveFile();"></td>
+					<td class="stdDlg" width=""><input class="sbtnDlg" id="sbtnGetFaisal" type="button" value="GetFaisal" onclick="requestFaisal();"></td>
+					<td class="stdDlg" width=""><!--<input class="sbtnDlg" id="sbtnCGITest" type="button" value="CGI Test" onclick="cgiTest();">--></td>
+				</tr>
+				<tr class="strDlg">
+					<td class="stdDlg" width="5">Password</td>
+					<td class="stdDlg" width="5"><input class="spwfDlg" id="spwfPassword" type="password" value="" style="width:150px"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnLogoff" type="button" value="Logoff" onclick="logoff();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnBroadcast" type="button" value="Broadcast" onclick="broadcast();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnGetTime" type="button" value="GetTime" onclick="sampleGetTime();"></td>
+					<td class="stdDlg" width="5"><input class="sbtnDlg" id="sbtnSelect" type="button" value="Select" onclick="sampleSelect();"></td>
+					<td class="stdDlg" width=""><input class="sbtnDlg" id="sbtnLoadFile" type="button" value="Load File" onclick="loadFile();"></td>
+				</tr>
+				<tr class="strDlg">
+					<td class="stdDlg" width="5">Message</td>
+					<td class="stdDlg" width="" colspan="5"><input class="stxfDlg" id="stxfMessage" type="text" value="Your Message" style="width:99%"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="myTextDiv" style="color: white; position: absolute; opacity: .90; -moz-opacity: 0.90; filter:alpha(opacity=90);">
+		<img src="contact_information_small.png"/>
+			<h1>Connected users</h1>
+		</div>
+		<div id="activeStatusInfo" style="position: absolute; top:0px; left:40%; width:20%; height: 5%; color: white; background-color: gray; opacity: .80; -moz-opacity: 0.80; filter:alpha(opacity=80);">
+                                Active Users: Martin, Ted, Faisal
+        </div>
+		
+		<style type="text/css">
+			img.mouse1 {
+				position: absolute;
+				z-index: 99;
+				height: 50px;
+				width: 50px;
+			}
+
+			img.mouse2 {
+				position: absolute;
+				z-index: 180;
+				height: 50px;
+				width: 50px;
+			}
+
+			img.mouse3 {
+				position: absolute;
+				z-index: 199;
+				height: 50px;
+				width: 50px;
+			}
+		</style>
+
+		<img class="mouse1" id="mouse1" src="EMS.jpg" alt="buggy1" />
+		<img class="mouse2" id="mouse2" src="COMM.jpg" alt="buggy2" />
+		<img class="mouse3" id="mouse3" src="FIRE.jpg" alt="buggy3" />
+	</body>
+</html>

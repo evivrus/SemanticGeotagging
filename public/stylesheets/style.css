@@ -148,3 +148,4 @@ h1#logo a { display: block; height: 90px; background: url(../images/dmilogo.jpg)
 #iconinstruction {position: absolute; top: 7px; left: 10px; bottom: 0px}
 #iconinstruction p {font-size: 15px; color: #000000;}
 #map_canvas { position:absolute; top: 7px; left: 130px; right: 0px; bottom: 0px}
+

@@ -2,7 +2,7 @@
   <% unless @category.nil? %>
   <%= link_to(image_tag("/images/back_image.png", {:alt => 'example', :id=>"header-img-back"}), {:controller=>'entities', :action => 'show', :id => session[:home_entity_id]}) %>
   <div id="header-text">
-    <%=h @category.name %>
+    <%=h @category.name + " List" %>
   </div>
   <%= link_to(image_tag("/images/home_image.png", {:alt => 'example', :id=>"header-img-home"}), {:controller=>'entities', :action => 'show', :id => session[:home_entity_id]}) %>
   <% else %>
@@ -19,6 +19,9 @@
       <div class="comment-item-name"><%=h comment.user.login if comment.user %></div>
 
       <div class="comment-item-time">
+        <% if comment.important_tag? %>
+            <%= image_tag "icons/exclamation.png",:size => "20x20" %>
+        <% end %>
         <% if comment.image_url.nil? == false && comment.image_url.empty? == false %>
             <%= image_tag "paperclip.png" %>
         <% end %>
@@ -36,6 +39,13 @@
     </div>
   </div>
 <% end %>
+
+<% if @comments.size == 0 %>
+    <p id="comment_list_empty">
+      No content now.
+    </p>
+<% end %>
+
 
 <!--<h1>Listing comments</h1>
 
@@ -67,5 +77,6 @@
 </table>
 
 <br />-->
-
+<p id="new_comment_link">
 <%= link_to 'New comment', new_comment_path %>
+</p>

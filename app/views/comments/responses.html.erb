@@ -1,7 +1,7 @@
 <% content_for :header_content do %>
   <%= link_to image_tag("/images/back_image.png", {:alt => 'example', :id=>"header-img-back"}), comment_path(session[:comment_id]) %>
   <div id="header-text">
-    <%=h @category.name %>
+    <%=h @category.name + " List" %>
   </div>
   <%= link_to(image_tag("/images/home_image.png", {:alt => 'example', :id=>"header-img-home"}), {:controller=>'entities', :action => 'show', :id => session[:home_entity_id]}) %>
 <% end %>
@@ -10,19 +10,34 @@
   <div class="comment-item">
     <div class="comment-item-header">
       <div class="comment-item-name"><%=h response.user.login if response.user %></div>
-      <div class="comment-item-time"><%=h response.created_at %></div>
+      <div class="comment-item-time">
+
+        <% if response.important_tag? %>
+            <%= image_tag "icons/exclamation.png",:size => "20x20" %>
+        <% end %>
+        <% if response.image_url.nil? == false && response.image_url.empty? == false %>
+            <%= image_tag "paperclip.png" %>
+        <% end %>
+
+        <%=h response.created_at %></div>
     </div>
 
     <div class="comment-item-main">
       <div class="comment-item-content"><%=h response.description %></div>
       <div class="comment-item-counter"><%=h response.comments_counter%> more follow up responses</div>
-      <%= link_to 'Follow up responses', response %> |
+      <%= link_to 'Show', response %> |
       <%= link_to 'Edit', edit_comment_path(response) %> |
       <%= link_to 'Destroy', response, :confirm => 'Are you sure?', :method => :delete %>
     </div>
   </div>
 <% end %>
 
+<% if @responses.size == 0 %>
+    <p id="comment_list_empty">
+      No content now.
+    </p>
+<% end %>
 
-
-<%= link_to 'New response', new_comment_path %>
+<p id="new_comment_link">
+    <%= link_to 'New response', new_comment_path %>
+</p>

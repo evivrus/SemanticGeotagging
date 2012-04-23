@@ -7,6 +7,7 @@ gem 'authlogic'
 gem 'sqlite3-ruby'
 gem 'mongrel'
 gem 'taps'
+gem 'heroku'
 
 group :developement, :test do
 	gem 'rake'
