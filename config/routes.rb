@@ -72,6 +72,13 @@ ActionController::Routing::Routes.draw do |map|
     :conditions => { :method => :get},
     :controller => "mapview", 
     :action => "index"
+
+  map.show_photo 'comments/:id/photo',
+    :conditions => { :method => :get},
+    :controller => 'comments',
+    :action => "show_photo"
+
+
   map.resource :user_session
   map.root :controller => "entities", :action => "index" # optional, this just sets the root route
 

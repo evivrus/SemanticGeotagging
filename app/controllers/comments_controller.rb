@@ -61,6 +61,16 @@ class CommentsController < ApplicationController
     end
   end
 
+  def show_photo
+    @comment = Comment.find(params[:id])
+
+    respond_to do |format|
+      format.html # show_photo.html.erb
+      format.xml  { render :xml => @comment }
+    end
+  end
+
+
   # GET /comments/new
   # GET /comments/new.xml
   def new

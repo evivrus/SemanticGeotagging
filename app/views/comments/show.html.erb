@@ -24,7 +24,7 @@
         url = @comment.image_url.sub(/_small/,"")
 
       %>
-      <a href="<%= url %>" target="_new">
+      <a href="<%= @comment.id %>/photo">
         <%= image_tag @comment.image_url %>
       </a>
   <% end %>
