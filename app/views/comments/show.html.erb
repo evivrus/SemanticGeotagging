@@ -24,8 +24,8 @@
         url = @comment.image_url.sub(/_small/,"")
 
       %>
-      <a href="<%= @comment.id %>/photo">
-        <%= image_tag @comment.image_url %>
+      <a href="#">
+        <%= image_tag @comment.image_url, :onclick => "open_new_photo_window("+(@comment.id.to_s())+")" %>
       </a>
   <% end %>
 </div>
