@@ -1,6 +1,18 @@
 var markerArray = new Array();
 var markerArrayCopy = new Array();
 
+var cursorX;
+var cursorY;
+
+function getCursorXY(e) {
+	cursorX = (window.Event) ? e.pageX : event.clientX + (document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft);
+	cursorY = (window.Event) ? e.pageY : event.clientY + (document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop);
+}
+
+function popup_open(id){
+    window.open('/entities/' + id, '_blank', 'width=600,height=800,resizable=no,left=' + cursorX);
+}
+
 function geotaggingInitialize() {
 
 	setInterval("updateMarkers()", 5000);
@@ -8,6 +20,12 @@ function geotaggingInitialize() {
 	var infowindow = new google.maps.InfoWindow({
 	  content: 'holding...'
 	});
+
+    //track the mouse cursor
+    if (window.Event) {
+	    document.captureEvents(Event.MOUSEMOVE);
+	}
+	document.onmousemove = getCursorXY;
 
   	$.getJSON('/api/entities.js?callback=?', function(data) {
 	    for(var i=0; i<data.length; i++) {
@@ -22,7 +40,8 @@ function geotaggingInitialize() {
 
 			markerArray[i].id = data[i].entity.id;
 			markerArray[i].updated_at = data[i].entity.updated_at;
-			markerArray[i].html = '<div style="font-size: 30px;line-height: 38px;" onClick="window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no'); return false;\"><a id=\"popup_link\" href=\"#\" ><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
+			//markerArray[i].html = '<div style="font-size: 30px;line-height: 38px;" onClick="window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no,left=cursorX'); return false;\"><a id=\"popup_link\" href=\"#\" ><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
+            markerArray[i].html = '<div style="font-size: 30px;line-height: 38px;" onClick="popup_open(' + data[i].entity.id + "); return false;\"><a id=\"popup_link\" href=\"#\" ><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
 	  		markerArray[i].set("icon", data[i].entity.icon_uri);
 
 
