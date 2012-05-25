@@ -69,8 +69,8 @@ jws.SamplesPlugIn = {
 			}
 			else if("k" == aToken.type ) {
 				// this is a kinect move command
-				//console.log(aToken.kx + " " + aToken.ky + " value received from kinect!" );
-				//movemousekinect(aToken.id, aToken.kx, aToken.ky);
+				console.log(aToken.kx + " " + aToken.ky + " value received from kinect!" );
+				movemousekinect(aToken.id, aToken.kx, aToken.ky);
 			}
 		//}
 	},
