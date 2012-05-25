@@ -1,3 +1,4 @@
+<div id="entity_content">
 <% content_for :header_content do %>
   <% unless @category.nil? %>
   <%= link_to(image_tag("/images/back_image.png", {:alt => 'example', :id=>"header-img-back"}), {:controller=>'entities', :action => 'show', :id => session[:home_entity_id]}) %>
@@ -35,7 +36,7 @@
 
       <%= link_to 'Show', comment %> |
       <%= link_to 'Edit', edit_comment_path(comment) %> |
-      <%= link_to 'Destroy', comment, :confirm => 'Are you sure?', :method => :delete %>
+      <%= link_to 'Delete', comment, :confirm => 'Are you sure?', :method => :delete %>
     </div>
   </div>
 <% end %>
@@ -80,3 +81,4 @@
 <p id="new_comment_link">
 <%= link_to 'New comment', new_comment_path %>
 </p>
+</div>
