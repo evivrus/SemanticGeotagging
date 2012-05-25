@@ -450,7 +450,7 @@ function updateMap(id, accelX, accelY)
     var t = (presentTime - lastRecordedTime) / 1000; // seconds
     lastRecordedTime = presentTime;
 
-    var factor = 1;
+    var factor = 2;
     var airmouse_1_x = accelX * factor;
     var airmouse_1_y = accelY * factor;
 

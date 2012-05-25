@@ -114,7 +114,7 @@ function updateMarkers() {
   			
   			markerArrayCopy[i].id = data[i].entity.id;
   			markerArrayCopy[i].updated_at = data[i].entity.updated_at;
-  			markerArrayCopy[i].html = '<div style="font-size: 32px;line-height: 36px;"><a href=\'#\' onClick=\"window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no'); return false;\"><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
+  			markerArrayCopy[i].html = '<div style="font-size: 32px;line-height: 36px;"><a href=\'#\' onClick="window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no'); return false;\"><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
   			markerArrayCopy[i].set("icon",data[i].entity.icon_uri);
 
 
