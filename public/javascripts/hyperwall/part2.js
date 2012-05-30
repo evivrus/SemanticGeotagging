@@ -15,7 +15,7 @@ var eLog = null;
             var lng_span = -1;
             var lat_span = -1;
             var south_west_lat = -1;
-            var south_west_lng = -1;
+            var south_west_lng = -1; 
 
             // mouse member variables
             var INTERVAL = 20;
