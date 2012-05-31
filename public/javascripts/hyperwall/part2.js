@@ -501,7 +501,7 @@ function mouseClick(id)
         if(y < 160)
         {
             // call martin
-            if( jWebSocketClient.isConnected() ) 
+            if( jWebSocketClient.isConnected() )
             {
                 jWebSocketClient.sendToken({
 type: "call",
@@ -512,7 +512,7 @@ num: "6507777777"
 else if(y > 160 && y < 290)
 {
     // call ted
-    if( jWebSocketClient.isConnected() ) 
+    if( jWebSocketClient.isConnected() )
     {
         jWebSocketClient.sendToken({
 type: "call",
@@ -523,7 +523,7 @@ num: "6508888888"
 else if(y > 290 && y < 430)
 {
     // call faisal
-    if( jWebSocketClient.isConnected() ) 
+    if( jWebSocketClient.isConnected() )
     {
         jWebSocketClient.sendToken({
 type: "call",
@@ -554,6 +554,8 @@ console.log("diffRatio:" + diffRatio);
 console.log("lngDiff:" + lngDiff);
 console.log("clng:" + clng);
 
+open_popup_window();
+
 setMarkers(clat, clng);
 }
 
@@ -564,6 +566,12 @@ var beaches = [
     ['Manly Beach', 37.41046, -122.060616, 2],
     ['Maroubra Beach', 37.41046, -122.060616, 1]
     ];
+
+
+function open_popup_window(){
+    window.open('/entities/53', '_blank', 'width=600,height=800,resizable=no');
+}
+
 
 function setMarkers(clat, clng) 
 {
