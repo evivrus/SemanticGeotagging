@@ -43,7 +43,7 @@ function geotaggingInitialize() {
 			//markerArray[i].html = '<div style="font-size: 30px;line-height: 38px;" onClick="window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no,left=cursorX'); return false;\"><a id=\"popup_link\" href=\"#\" ><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
             markerArray[i].html = '<div style="font-size: 30px;line-height: 38px;" onClick="popup_open(' + data[i].entity.id + "); return false;\"><a id=\"popup_link\" href=\"#\" ><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
 	  		markerArray[i].set("icon", data[i].entity.icon_uri);
-
+            markerArray[i].position = latlng0;
 
 	   		google.maps.event.addListener(markerArray[i], 'click', function() {
 	        	infowindow.setContent(this.html);
@@ -101,6 +101,7 @@ function updateMarkers() {
   				markerArrayCopy[i].id = markerArray[j].id;
   				markerArrayCopy[i].html = markerArray[j].html;
   				markerArrayCopy[i].set = markerArray[j].set;
+                markerArrayCopy[i].position = markerArray[j].position;
   				markerArrayCopy[i].updated_at = markerArray[j].updated_at;
   				markerExists = true;
   				
@@ -133,6 +134,7 @@ function updateMarkers() {
   			
   			markerArrayCopy[i].id = data[i].entity.id;
   			markerArrayCopy[i].updated_at = data[i].entity.updated_at;
+            markerArrayCopy[i].position = latlng0;
   			//markerArrayCopy[i].html = '<div style="font-size: 32px;line-height: 36px;"><a href=\'#\' onClick="window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no'); return false;\"><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
   			markerArrayCopy[i].html = '<div style="font-size: 30px;line-height: 38px;" onClick="window.open(\'/entities/' + data[i].entity.id + "', '_blank', 'width=600,height=800,resizable=no'); return false;\"><a id=\"popup_link\" href=\"#\" ><b>" + data[i].entity.title + '</b><br/>' + data[i].entity.description + '<br/>' + "</a></div>";
             markerArrayCopy[i].set("icon",data[i].entity.icon_uri);

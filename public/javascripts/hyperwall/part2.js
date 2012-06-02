@@ -542,6 +542,9 @@ num: "6509999999"
     lng_span = northEast.lng() - southWest.lng();
     lat_span = northEast.lat() - southWest.lat();
 
+    south_west_lat = southWest.lat();
+    south_west_lng = southWest.lng();
+
 
 console.log("xmax: " + xmax + " ymax: " + ymax + "current positions x:" + x + " y:" + y);				
 var diff = ymax - y;
@@ -563,6 +566,21 @@ console.log("lngDiff:" + lngDiff);
 console.log("clng:" + clng);
 
 //open_popup_window();
+
+    var click_position = new google.maps.LatLng(clat,clng);
+
+    for(var i=0;i<markerArray.length;i++){
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(markerArray[i].position, click_position);
+        if(distance < 10){
+            var infowindow = new google.maps.InfoWindow({
+	            content: 'holding...'
+	        });
+            infowindow.setContent(markerArray[i].html);
+            infowindow.open(map,markerArray[i]);
+            break;
+        }
+    }
+
 
 setMarkers(clat, clng);
 }
