@@ -535,7 +535,7 @@ function mouseClick(id)
     }
     */
 
-    if(x > 200){
+    if(xmax - x < 200){
         console.log("Call anyone!");
 
         if(y < 160)
@@ -550,8 +550,7 @@ function mouseClick(id)
                     num: "6507777777",
                     subType: "exec"
                 };
-                    jWebSocketClient.sendToken( lToken,    {
-                });
+                jWebSocketClient.sendToken( lToken,  {});
             console.log("Call Martin");
             }
         }
@@ -566,8 +565,7 @@ function mouseClick(id)
                     num: "6508888888",
                     subType: "exec"
                 };
-                    jWebSocketClient.sendToken( lToken,    {
-                });
+                jWebSocketClient.sendToken( lToken,    {});
             }
             console.log("Call Ted");
         }
@@ -582,8 +580,7 @@ function mouseClick(id)
                     num: "6509999999",
                     subType: "exec"
                 };
-                    jWebSocketClient.sendToken( lToken,    {
-                });
+                jWebSocketClient.sendToken( lToken,    {});
             }
             console.log("Call Faisal");
         }
