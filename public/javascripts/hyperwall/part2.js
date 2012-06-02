@@ -556,8 +556,12 @@ console.log("diffRatio:" + diffRatio);
 console.log("latDiff:" + latDiff);
 console.log("clat:" + clat);
 
-diff = x;
-diffRatio = diff/xmax;
+
+var x_real = x - 130;
+var xmax_real = xmax - 130;
+
+diff = x_real;
+diffRatio = diff/xmax_real;
 var lngDiff = diffRatio * lng_span;
 var clng =  south_west_lng + lngDiff;
 console.log("diff:" + diff);
@@ -573,11 +577,15 @@ console.log("clng:" + clng);
         var distance = google.maps.geometry.spherical.computeDistanceBetween(markerArray[i].position, click_position);
         console.log("distance: "+distance);
         if(distance < 80){
+
+            window.open('/entities/' + markerArray[i].id, '_blank', 'width=600,height=800,resizable=no,left=' + cursorX);
+            /*
             var infowindow = new google.maps.InfoWindow({
 	            content: 'holding...'
 	        });
             infowindow.setContent(markerArray[i].html);
             infowindow.open(map,markerArray[i]);
+            */
             break;
         }
     }
