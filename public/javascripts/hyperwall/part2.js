@@ -535,6 +535,14 @@ num: "6509999999"
 
 }
 
+
+    var bounds = map.getBounds();
+    var southWest = bounds.getSouthWest();
+    var northEast = bounds.getNorthEast();
+    lng_span = northEast.lng() - southWest.lng();
+    lat_span = northEast.lat() - southWest.lat();
+
+
 console.log("xmax: " + xmax + " ymax: " + ymax + "current positions x:" + x + " y:" + y);				
 var diff = ymax - y;
 var diffRatio = diff/ymax;
@@ -554,7 +562,7 @@ console.log("diffRatio:" + diffRatio);
 console.log("lngDiff:" + lngDiff);
 console.log("clng:" + clng);
 
-open_popup_window();
+//open_popup_window();
 
 setMarkers(clat, clng);
 }
