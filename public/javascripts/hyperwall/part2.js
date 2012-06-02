@@ -496,6 +496,7 @@ function mouseClick(id)
     var x = bug.xpos;
     var y = bug.ypos;
 
+    /*
     if(x > 1050)
     {
         if(y < 160)
@@ -504,36 +505,89 @@ function mouseClick(id)
             if( jWebSocketClient.isConnected() )
             {
                 jWebSocketClient.sendToken({
-type: "call",
-num: "6507777777"
-});
-}
-}
-else if(y > 160 && y < 290)
-{
-    // call ted
-    if( jWebSocketClient.isConnected() )
-    {
-        jWebSocketClient.sendToken({
-type: "call",
-num: "6508888888"
-});
-}
-}
-else if(y > 290 && y < 430)
-{
-    // call faisal
-    if( jWebSocketClient.isConnected() )
-    {
-        jWebSocketClient.sendToken({
-type: "call",
-num: "6509999999"
-});
-}
-}
+                    type: "call",
+                    num: "6507777777"
+                });
+            }
+        }
+        else if(y > 160 && y < 290)
+        {
+            // call ted
+            if( jWebSocketClient.isConnected() )
+            {
+                jWebSocketClient.sendToken({
+                    type: "call",
+                    num: "6508888888"
+                });
+            }
+        }
+        else if(y > 290 && y < 430)
+        {
+            // call faisal
+            if( jWebSocketClient.isConnected() )
+            {
+                jWebSocketClient.sendToken({
+                    type: "call",
+                    num: "6509999999"
+                });
+            }
+        }
+    }
+    */
 
+    if(x > 200){
+        console.log("Call anyone!");
 
-}
+        if(y < 160)
+        {
+            // call martin
+
+            if( jWebSocketClient.isConnected() )
+            {
+                var lToken = {
+                    ns: jws.SamplesPlugIn.NS,
+                    type: "call",
+                    num: "6507777777",
+                    subType: "exec"
+                };
+                    jWebSocketClient.sendToken( lToken,    {
+                });
+            console.log("Call Martin");
+            }
+        }
+        else if(y > 160 && y < 290)
+        {
+            // call ted
+            if( jWebSocketClient.isConnected() )
+            {
+                var lToken = {
+                    ns: jws.SamplesPlugIn.NS,
+                    type: "call",
+                    num: "6508888888",
+                    subType: "exec"
+                };
+                    jWebSocketClient.sendToken( lToken,    {
+                });
+            }
+            console.log("Call Ted");
+        }
+        else if(y > 290 && y < 430)
+        {
+            // call faisal
+            if( jWebSocketClient.isConnected() )
+            {
+                var lToken = {
+                    ns: jws.SamplesPlugIn.NS,
+                    type: "call",
+                    num: "6509999999",
+                    subType: "exec"
+                };
+                    jWebSocketClient.sendToken( lToken,    {
+                });
+            }
+            console.log("Call Faisal");
+        }
+    }
 
 
     var bounds = map.getBounds();
