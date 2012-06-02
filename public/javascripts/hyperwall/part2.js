@@ -578,7 +578,7 @@ console.log("clng:" + clng);
         console.log("distance: "+distance);
         if(distance < 80){
 
-            window.open('/entities/' + markerArray[i].id, '_blank', 'width=600,height=800,resizable=no,left=' + cursorX);
+            window.open('/entities/' + markerArray[i].id, '_blank', 'width=600,height=800,resizable=no,left=' + x);
             /*
             var infowindow = new google.maps.InfoWindow({
 	            content: 'holding...'
