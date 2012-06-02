@@ -571,7 +571,8 @@ console.log("clng:" + clng);
 
     for(var i=0;i<markerArray.length;i++){
         var distance = google.maps.geometry.spherical.computeDistanceBetween(markerArray[i].position, click_position);
-        if(distance < 10){
+        console.log("distance: "+distance);
+        if(distance < 80){
             var infowindow = new google.maps.InfoWindow({
 	            content: 'holding...'
 	        });
