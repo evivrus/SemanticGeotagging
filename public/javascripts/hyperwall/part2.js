@@ -535,10 +535,10 @@ function mouseClick(id)
     }
     */
 
-    if(xmax - x < 200){
+    if(xmax - x < 500){
         console.log("Call anyone!");
 
-        if(y < 160)
+        if(y < 130)
         {
             // call martin
 
@@ -554,7 +554,7 @@ function mouseClick(id)
             console.log("Call Martin");
             }
         }
-        else if(y > 160 && y < 290)
+        else if(y > 130 && y < 260)
         {
             // call ted
             if( jWebSocketClient.isConnected() )
@@ -569,7 +569,7 @@ function mouseClick(id)
             }
             console.log("Call Ted");
         }
-        else if(y > 290 && y < 430)
+        else if(y > 260 && y < 390)
         {
             // call faisal
             if( jWebSocketClient.isConnected() )
