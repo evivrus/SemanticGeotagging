@@ -547,7 +547,7 @@ function mouseClick(id)
                 var lToken = {
                     ns: jws.SamplesPlugIn.NS,
                     type: "call",
-                    num: "6507777777",
+                    num: "6504546692",
                     subType: "exec"
                 };
                 jWebSocketClient.sendToken( lToken,  {});
@@ -562,7 +562,7 @@ function mouseClick(id)
                 var lToken = {
                     ns: jws.SamplesPlugIn.NS,
                     type: "call",
-                    num: "6508888888",
+                    num: "6504546692",
                     subType: "exec"
                 };
                 jWebSocketClient.sendToken( lToken,    {});
@@ -577,7 +577,7 @@ function mouseClick(id)
                 var lToken = {
                     ns: jws.SamplesPlugIn.NS,
                     type: "call",
-                    num: "6509999999",
+                    num: "7075807670",
                     subType: "exec"
                 };
                 jWebSocketClient.sendToken( lToken,    {});
